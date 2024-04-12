@@ -6,7 +6,6 @@ import json
 def is_valid_question_bs(question):
     return question['score'] >= 8 and question['answer_count'] >= 4
 
-
 op = input('1 - Backward; 2 - Forward: ')
 
 if (op == '1'):
@@ -33,6 +32,9 @@ rows = cursor.fetchall()
 
 questions_map = dict()
 
+cursor.execute('select id from post_startset')
+startset = set(temp_row[0] for temp_row in cursor.fetchall())
+
 if op == '1':
 
     # Iterando por discussões relacionadas apontadas pelo startset
@@ -40,15 +42,11 @@ if op == '1':
         data = json.loads(row[1]) # parseando response body
         items = data['items']
         for item in items:
-            if is_valid_question_bs(item):
-                related_id = item['question_id']
+            related_id = item['question_id']
+            if is_valid_question_bs(item) and related_id not in startset:
                 questions_map[related_id] = questions_map.get(related_id, 0) + 1
 
 elif op == '2':
-
-    # Iterando por discussões para achar qual aponta para o starset
-    cursor.execute('select id from post_startset')
-    startset = set(temp_row[0] for temp_row in cursor.fetchall())
 
     for row in rows:
         data = json.loads(row[1])
