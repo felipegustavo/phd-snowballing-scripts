@@ -12,6 +12,13 @@ def load_startset():
 
     connection.commit()
 
+def load_false_positive():
+    with open('dataset/false_positives.txt', 'r') as file:
+        for line in file:
+            cursor.execute('INSERT INTO public.post_false_positive(id) VALUES(%s)', [line.strip()])
+
+    connection.commit()
+
 def load_posts():
     tree = etree.parse('dataset/Posts.xml')
     root = tree.getroot()
@@ -22,14 +29,14 @@ def load_posts():
         '''
             INSERT INTO public.post(id, post_type_id, creation_date, score,
                 view_count, body, owner_user_id, last_activity_date, title,
-                tags, answer_count, comment_count, content_license)
-            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                tags, answer_count, comment_count, content_license, parent_id)
+            VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ''',
         [attrs['Id'], attrs['PostTypeId'], attrs['CreationDate'],
         attrs['Score'], attrs.get('ViewCount'), attrs['Body'],
         attrs.get('OwnerUserId'), attrs.get('LastActivityDate'),
         attrs.get('Title'), attrs.get('Tags'), attrs.get('AnswerCount'),
-        attrs['CommentCount'], attrs.get('ContentLicense')])
+        attrs['CommentCount'], attrs.get('ContentLicense'), attrs.get('ParentId')])
         print("Post {} inserido".format(attrs['Id']))
         
     connection.commit()
@@ -76,13 +83,14 @@ def load_related_posts():
         connection.commit()
         print("Acabou, terminei no id {}".format(post_id))
 
-op = input('1 - startset; 2 - posts; 3 - posts links; 4 - related posts: ')
+op = input('1 - startset; 2 - posts; 3 - posts links; 4 - related posts; 5 - false positives: ')
 
 funcs = {
     '1': load_startset,
     '2': load_posts,
     '3': load_posts_links,
-    '4': load_related_posts
+    '4': load_related_posts,
+    '5': load_false_positive
 }
 
 connection = database.connect()

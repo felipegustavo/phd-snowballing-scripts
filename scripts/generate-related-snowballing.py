@@ -9,19 +9,19 @@ def is_valid_question_bs(question):
 op = input('1 - Backward; 2 - Forward: ')
 
 if (op == '1'):
-    output = 'out/ids_related_links_backward_snowballing.csv'
+    output = 'out/RELATED BS.csv'
     query = '''
     select * from post_link_related
     where post_id in (select id from post_startset)
     '''
 
 else:
-    output = 'out/ids_related_links_forward_snowballing.csv'
+    output = 'out/RELATED FS.csv'
     query = '''
     select * from post_link_related
     where
 	    post_id not in (select id from post_startset) and
-	    post_id in (select id from post where answer_count >= 4 and score >= 8)
+        post_id in (select id from post where answer_count >= 4 and score >= 8)
     '''
 
 connection = database.connect()

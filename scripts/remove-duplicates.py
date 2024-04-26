@@ -1,11 +1,11 @@
 ouput_files = [
-    'out/ids_linked_links_backward_snowballing.csv',
-    'out/ids_linked_links_forward_snowballing.csv',
-    'out/ids_related_links_backward_snowballing.csv',
-    'out/ids_related_links_forward_snowballing.csv'
+    'out/LINKED BS.csv',
+    'out/LINKED FS.csv',
+    'out/RELATED BS.csv',
+    'out/RELATED FS.csv'
 ]
 
-def seta_duplicadas_arquivo(filename):
+def remove_duplicadas_arquivo(filename):
     with open(filename, 'r') as file:
         header = file.readline().replace('\n', '')
         map = dict()
@@ -13,11 +13,11 @@ def seta_duplicadas_arquivo(filename):
             parts = line.split(',')
             map[parts[0]] = parts[1].replace('\n', '')
     
-        header = header + ',duplicada'
         lines = [header]
 
         for k, v in map.items():
-            lines.append('{},{},{}'.format(k, v, 'Sim' if k in duplicated_set else 'Não'))
+            if k not in duplicated_set:
+                lines.append('{},{}'.format(k, v))
         
         file.close()
         #print(lines)
@@ -28,12 +28,12 @@ def seta_duplicadas_arquivo(filename):
 
 
 duplicated_set = set()
-with open('out/duplicated_ids.csv', 'r') as file:
+with open('out/Duplicações.csv', 'r') as file:
     file.readline()
     for line in file:
         duplicated_set.add(line.split(',')[0])
 
 for filename in ouput_files:
-    seta_duplicadas_arquivo(filename)
+    remove_duplicadas_arquivo(filename)
 
 #print(duplicated_set)

@@ -1,8 +1,8 @@
 ouput_files = {
-    'LINKED_BS': 'out/ids_linked_links_backward_snowballing.csv',
-    'LINKED_FS': 'out/ids_linked_links_forward_snowballing.csv',
-    'RELATED_BS': 'out/ids_related_links_backward_snowballing.csv',
-    'RELATED_FS': 'out/ids_related_links_forward_snowballing.csv'
+    'LINKED_BS': 'out/LINKED BS.csv',
+    'LINKED_FS': 'out/LINKED FS.csv',
+    'RELATED_BS': 'out/RELATED BS.csv',
+    'RELATED_FS': 'out/RELATED FS.csv'
 }
 
 posts = dict()
@@ -28,6 +28,6 @@ for key, value in posts.items():
             value.get('RELATED_BS', 0), value.get('RELATED_FS', 0)
         ))
 
-with open('out/duplicated_ids.csv', 'w') as file:
+with open('out/Duplicações.csv', 'w') as file:
     file.write('\n'.join(csv_lines))
     file.close()

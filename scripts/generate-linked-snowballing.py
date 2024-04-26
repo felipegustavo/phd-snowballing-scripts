@@ -4,7 +4,7 @@ from utils import files
 op = input('1 - Backward; 2 - Forward: ')
 
 if (op == '1'):
-    output = 'out/ids_linked_links_backward_snowballing.csv'
+    output = 'out/LINKED BS.csv'
     query = '''
     select pl.related_post_id  from post_link pl
     where
@@ -15,7 +15,7 @@ if (op == '1'):
     '''
 
 else:
-    output = 'out/ids_linked_links_forward_snowballing.csv'
+    output = 'out/LINKED FS.csv'
     query = '''
     select pl.post_id from post_link pl
     where
