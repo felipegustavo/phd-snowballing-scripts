@@ -59,7 +59,7 @@ def load_posts_links():
 
 def load_related_posts():
     try:
-        site = stackapi.StackAPI(name='pm', key='PuwVddLxBbyPkjEP5SyzYQ((')
+        site = stackapi.StackAPI(name='pm', key='')
         cursor.execute('''
                     select id  from post
                     where
